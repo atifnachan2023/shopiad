@@ -33,7 +33,7 @@ public class AccountController {
     @PostMapping("/user")
     public ResponseEntity<UserAccount> createUser(@RequestBody UserAccount userAccount){
 
-        //Checking if Mandatory Fields are null or empty
+        //Checking if Mandatory Fields are null or empty/Blank
         if (userAccount.getFirstName()==null||userAccount.getLastName()==null||userAccount.getFirstName().isEmpty()||userAccount.getLastName().isEmpty()){
 
             throw new UserException("FirstName ,LastName ,username ,emailId  cannot be null");
