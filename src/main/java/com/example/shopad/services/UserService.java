@@ -1,5 +1,6 @@
 package com.example.shopad.services;
 
+import com.example.shopad.model.StoreInfo;
 import com.example.shopad.model.UserAccount;
 import org.springframework.stereotype.Service;
 
@@ -13,5 +14,14 @@ public interface UserService {
    List<UserAccount> getUsers();
 
    UserAccount getUser(int id);
+
+
+   UserAccount updateUser(UserAccount userAccount , int userId);
+
+   List<StoreInfo> getStoresForParticularUser(int id);
+
+
+
+
 
 }

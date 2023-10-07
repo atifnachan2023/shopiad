@@ -1,7 +1,9 @@
 package com.example.shopad.controller;
 
 import com.example.shopad.exceptions.UserException;
+import com.example.shopad.model.StoreInfo;
 import com.example.shopad.model.UserAccount;
+import com.example.shopad.services.StoreService;
 import com.example.shopad.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +27,16 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
+
+    @Autowired
+    StoreService storeService;
+
     @GetMapping("/test")
     public String doTest(){
         return "end-points-running";
     }
 
+    // This Api creates new User?Seller Account
     @PostMapping("/user")
     public ResponseEntity<UserAccount> createUser(@RequestBody UserAccount userAccount){
 
@@ -61,7 +68,7 @@ catch (Exception e){
 }
 
     }
-
+//this api fetches all the User/seller Account details
     @GetMapping("/users")
     public ResponseEntity<List<UserAccount>> getAllUsers(){
 
@@ -74,14 +81,62 @@ catch (Exception e){
 
     }
 
-
+//this api fetches User?Seller based on id
     @GetMapping("/user/{userId}")
     public ResponseEntity<UserAccount> getUser(@PathVariable int userId){
 
-        UserAccount userAccount=userService.getUser(userId);
+        UserAccount userAccount=userService.getUser(userId);http://localhost:8081/account/assign/store/651da220ec94724700e48192/2
 
         return ResponseEntity.status(HttpStatus.OK).body(userAccount);
 
+    }
+
+
+//this api assign store to a particular User?Seller
+    @PutMapping("/{userId}")
+    public ResponseEntity<UserAccount> updateAccount(@RequestBody UserAccount userAccount ,@PathVariable int userId){
+
+
+
+        UserAccount userAccount1=userService.updateUser(userAccount,userId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userAccount1);
+
+    }
+
+    //this api fetches particular stores of a particular UserAccount
+     @GetMapping("/stores/{userId}")
+    public ResponseEntity<List<StoreInfo>> getAllStoreForParticularUserAccount(@PathVariable int userId){
+
+        List<StoreInfo> stores=userService.getStoresForParticularUser(userId);
+
+      return ResponseEntity.status(HttpStatus.OK).body(stores);
+
+    }
+
+    // this api assign user with store based on User/Seller id
+ @PutMapping("/assign/store/{storeId}/{userId}")
+    public ResponseEntity<UserAccount> assignStoreToUser(@PathVariable String storeId,@PathVariable int userId){
+
+        StoreInfo storeInfo=storeService.getStore(storeId);
+
+        List<StoreInfo>storeInfoList1 =new ArrayList<>();
+
+       List<StoreInfo>  storeInfoList2= storeService.getAllUserStores(userId);
+        storeInfoList1.add(storeInfo);
+        storeInfoList1.addAll(storeInfoList2);
+
+        UserAccount userAccount=userService.getUser(userId);
+
+        userAccount.setStores(storeInfoList1);
+
+
+
+        userService.updateUser(userAccount,userId);
+
+
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userAccount);
     }
 
 
