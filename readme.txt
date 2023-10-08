@@ -20,6 +20,10 @@ To Assign store to particular User/Seller
 
 http://localhost:8081/account/store/{storeId}/{userId}
 
+To Delete store from particular UserAccount
+
+http://localhost:8081/account/{userId}/{storeId}
+
 To create a store
 http://localhost:8081/stores/store/{storeId} (POST CALL)
 

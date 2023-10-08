@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/account")
@@ -141,6 +142,7 @@ catch (Exception e){
      List<UserAccount>userAccountList=new ArrayList<>();
      userAccountList.add(userAccount);
      if(existingUserAccountListOfStore!=null) {
+         
          userAccountList.addAll(existingUserAccountListOfStore);
      }
       storeInfo.setAccounts(userAccountList);
@@ -162,5 +164,38 @@ catch (Exception e){
     }
 
 
+    @DeleteMapping("/{userId}/{storeId}")
+    public ResponseEntity<UserAccount> deleteStoreFromUser(@PathVariable int userId ,@PathVariable String storeId){
+
+        UserAccount userAccount=userService.getUser(userId);
+
+        List<StoreInfo>storeInfoList=userAccount.getStores();
+
+        List<StoreInfo> removeStore=storeInfoList.stream().filter(a->a.getId().equals(storeId)).collect(Collectors.toList());
+
+        storeInfoList.removeAll(removeStore);
+
+        userAccount.setStores(storeInfoList);
+
+        // UserAccount updated with removal of store of given Id
+        userService.updateUser(userAccount,userId);
+
+        StoreInfo storeInfo=storeService.getStore(storeId);
+
+        List<UserAccount>userAccountsList=storeInfo.getAccounts();
+
+        List<UserAccount> removeAccount=userAccountsList.stream().filter(s->s.getId()==userId).collect(Collectors.toList());
+
+        userAccountsList.removeAll(removeAccount);
+
+        storeInfo.setAccounts(userAccountsList);
+
+        //store updated with removal of Account of given Id
+        storeService.updateStoreInfo(storeInfo,storeId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(userAccount);
+
+
+    }
 
 }
