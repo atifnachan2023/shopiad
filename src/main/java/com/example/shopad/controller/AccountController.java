@@ -163,7 +163,7 @@ catch (Exception e){
         return ResponseEntity.status(HttpStatus.CREATED).body(userAccount);
     }
 
-
+ // This api delete store in particular User/Seller Account
     @DeleteMapping("/{userId}/{storeId}")
     public ResponseEntity<UserAccount> deleteStoreFromUser(@PathVariable int userId ,@PathVariable String storeId){
 
