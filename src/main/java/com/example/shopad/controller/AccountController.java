@@ -120,6 +120,8 @@ catch (Exception e){
 
         StoreInfo storeInfo=storeService.getStore(storeId);
 
+        List<UserAccount> existingUserAccountListOfStore=storeInfo.getAccounts();
+
         List<StoreInfo>storeInfoList1 =new ArrayList<>();
 
        List<StoreInfo>  storeInfoList2= storeService.getAllUserStores(userId);
@@ -128,11 +130,31 @@ catch (Exception e){
 
         UserAccount userAccount=userService.getUser(userId);
 
+
+
         userAccount.setStores(storeInfoList1);
+
+        //new part start
+
+
+
+     List<UserAccount>userAccountList=new ArrayList<>();
+     userAccountList.add(userAccount);
+     if(existingUserAccountListOfStore!=null) {
+         userAccountList.addAll(existingUserAccountListOfStore);
+     }
+      storeInfo.setAccounts(userAccountList);
+
+
+// new part ends
 
 
 
         userService.updateUser(userAccount,userId);
+        storeService.updateStoreInfo(storeInfo,storeId);
+
+
+
 
 
 

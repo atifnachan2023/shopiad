@@ -39,7 +39,7 @@ public class StoreController {
     }
 
     //this Api update store info
-    @PutMapping("/{storeId}/")
+    @PutMapping("/{storeId}")
     public ResponseEntity<StoreInfo> updateStore(@RequestBody StoreInfo storeInfo,@PathVariable String storeId){
 
 

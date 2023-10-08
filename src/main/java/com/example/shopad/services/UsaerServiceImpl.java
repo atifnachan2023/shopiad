@@ -64,5 +64,13 @@ public class UsaerServiceImpl implements  UserService {
         return stores;
     }
 
+    @Override
+    public List<UserAccount> getAllUserAccounts() {
+
+        List<UserAccount> accountList=userRepository.findAll();
+
+        return accountList;
+    }
+
 
 }

@@ -21,7 +21,7 @@ public interface UserService {
    List<StoreInfo> getStoresForParticularUser(int id);
 
 
-
+  List<UserAccount> getAllUserAccounts();
 
 
 }

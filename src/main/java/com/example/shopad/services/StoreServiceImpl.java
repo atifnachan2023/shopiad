@@ -67,6 +67,31 @@ public class StoreServiceImpl  implements  StoreService{
 
         StoreInfo store=storeRepository.findById(storeId).get();
 
+        if( storeInfo.getStoreName()!=null ){
+
+            store.setStoreName(storeInfo.getStoreName());
+
+        }
+        if ( storeInfo.getDescription()!=null){
+
+            store.setDescription(storeInfo.getDescription());
+        }
+
+
+        if (storeInfo.getIsActive().toString()!=null){
+
+            store.setIsActive(storeInfo.getIsActive());
+        }
+
+        if ( storeInfo.getAccounts()!=null){
+            store.setAccounts(storeInfo.getAccounts());
+
+        }
+
+        if (storeInfo.getProducts()!=null){
+
+            store.setProducts(storeInfo.getProducts());
+        }
 
 
         storeRepository.save(store);
@@ -76,6 +101,9 @@ public class StoreServiceImpl  implements  StoreService{
 
     @Override
     public StoreInfo updateProductsInStore(StoreInfo storeInfo) {
+
+
+
 
         StoreInfo storeInfo1=storeRepository.save(storeInfo);
 
