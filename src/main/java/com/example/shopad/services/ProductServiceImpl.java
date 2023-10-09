@@ -60,10 +60,22 @@ public class ProductServiceImpl implements   ProductService {
     public ProductsInfo updateProductInStore(ProductsInfo productsInfo, String productId) {
 
         ProductsInfo productsInfo1=productRepository.findById(productId).get();
-        productsInfo1.setProductName(productsInfo.getProductName());
-        productsInfo1.setCategory(productsInfo.getCategory());
-        productsInfo1.setPrice(productsInfo.getPrice());
-        productsInfo1.setIsActive(productsInfo.getIsActive());
+
+        productsInfo1.setCreatedAt(productsInfo1.getCreatedAt());
+
+               if(productsInfo.getProductName()!=null) {
+            productsInfo1.setProductName(productsInfo.getProductName());
+        }
+        if (productsInfo.getCategory()!=null) {
+            productsInfo1.setCategory(productsInfo.getCategory());
+        }
+        if(productsInfo.getPrice()!=null) {
+            productsInfo1.setPrice(productsInfo.getPrice());
+        }
+
+        if (productsInfo.getIsActive()!=null) {
+            productsInfo1.setIsActive(productsInfo.getIsActive());
+        }
         productsInfo1.setUpdatedAt(Instant.now());
 
         productRepository.save(productsInfo1);

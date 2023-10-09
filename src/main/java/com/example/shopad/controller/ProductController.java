@@ -81,12 +81,13 @@ public class ProductController {
 
     }
 
+
     // this api updates product in store
     @PutMapping("/{productId}")
     ResponseEntity<ProductsInfo> updateProductInStore(@RequestBody ProductsInfo productsInfo,@PathVariable String productId){
 
 
-               productsInfo.setCreatedAt(productsInfo.getCreatedAt());
+
 
                   ProductsInfo updatedProduct=productService.updateProductInStore(productsInfo,productId);
 
